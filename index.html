@@ -6,6 +6,7 @@
 <title>Pflanzenauswahl 🌿</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
 <link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -124,12 +125,13 @@
   <div class="modal-backdrop" id="orderBackdrop"></div>
   <div class="modal-content order-content">
     <button class="modal-close" id="orderClose">✕</button>
-    <h2>Auswahl bereit zum Versenden ✅</h2>
-    <p>Es öffnet sich gleich dein E-Mail-Programm mit einer vorausgefüllten Nachricht. Prüfe die Auswahl kurz und klicke dann auf <strong>Senden</strong>.</p>
+    <h2 id="orderTitle">Auswahl senden</h2>
+    <p id="orderStatusText">Diese Pflanzen wurden gesichert. Klicke auf "Jetzt senden", um Felix automatisch per E-Mail zu benachrichtigen.</p>
     <div class="order-summary" id="orderSummary"></div>
     <div class="detail-actions">
-      <button id="openMailBtn" class="btn-primary">E-Mail-Programm öffnen</button>
-      <button id="copySummaryBtn" class="btn-ghost">Auswahl als Text kopieren</button>
+      <button id="sendEmailBtn" class="btn-primary">Jetzt senden</button>
+      <button id="openMailBtn" class="btn-ghost">Stattdessen E-Mail-Programm öffnen</button>
+      <button id="copySummaryBtn" class="btn-ghost">Als Text kopieren</button>
     </div>
   </div>
 </div>

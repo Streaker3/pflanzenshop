@@ -603,6 +603,21 @@ button {
   flex-wrap: wrap;
 }
 
+#orderStatusText {
+  color: var(--text-muted);
+  transition: color 0.15s ease;
+}
+
+.order-status-success {
+  color: var(--green-700) !important;
+  font-weight: 600;
+}
+
+.order-status-error {
+  color: #b3315a !important;
+  font-weight: 600;
+}
+
 /* ===== Cart ===== */
 .cart-content { max-width: 560px; }
 

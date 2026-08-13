@@ -7,6 +7,16 @@ const PROFILES = [
 ];
 const ORDER_EMAIL = "felix.n3003@gmail.com"; // Empfänger der Bestellzusammenfassung
 
+// ===== EmailJS-Konfiguration =====
+// Automatischer Versand der "Pflanze gesichert"-Benachrichtigung per EmailJS.
+const EMAILJS_PUBLIC_KEY = "UbMhK1x01zt5avkdo";
+const EMAILJS_SERVICE_ID = "service_7bzn6k5";
+const EMAILJS_TEMPLATE_ID = "template_npwhm7e";
+
+if (window.emailjs) {
+  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+}
+
 // ===== State =====
 let currentProfile = null;
 let cart = new Set(); // Set von plantId – jede Pflanze gibt es nur einmal, keine Mengen
@@ -348,41 +358,97 @@ document.getElementById("cartClose").addEventListener("click", () => closeModal(
 document.getElementById("cartBackdrop").addEventListener("click", () => closeModal("cartPanel"));
 
 // ===== Bestellung abschicken =====
+function buildPlantListText() {
+  const ids = [...cart];
+  if (ids.length === 0) return "(Keine Pflanzen ausgewählt)";
+  return ids
+    .map(id => {
+      const p = getPlant(id);
+      if (!p) return null;
+      return `- ${p.name} (${p.category}, ${p.size})`;
+    })
+    .filter(Boolean)
+    .join("\n");
+}
+
 function buildOrderText() {
   const ids = [...cart];
   const lines = [];
   lines.push(`Pflanzenauswahl von: ${currentProfile}`);
   lines.push(`Datum: ${new Date().toLocaleDateString("de-DE")}`);
   lines.push("");
-  if (ids.length === 0) {
-    lines.push("(Keine Pflanzen ausgewählt)");
-  } else {
-    ids.forEach(id => {
-      const p = getPlant(id);
-      if (!p) return;
-      lines.push(`- ${p.name} (${p.category}, ${p.size})`);
-    });
-  }
+  lines.push(buildPlantListText());
   lines.push("");
   lines.push(`Gesamtzahl Pflanzen: ${ids.length}`);
   return lines.join("\n");
 }
 
+function resetOrderModalUI() {
+  const status = document.getElementById("orderStatusText");
+  status.textContent = 'Diese Pflanzen wurden gesichert. Klicke auf "Jetzt senden", um Felix automatisch per E-Mail zu benachrichtigen.';
+  status.classList.remove("order-status-error", "order-status-success");
+  const sendBtn = document.getElementById("sendEmailBtn");
+  sendBtn.disabled = false;
+  sendBtn.textContent = "Jetzt senden";
+}
+
 document.getElementById("submitOrderBtn").addEventListener("click", () => {
-  const text = buildOrderText();
-  document.getElementById("orderSummary").textContent = text;
+  document.getElementById("orderSummary").textContent = buildPlantListText();
+  resetOrderModalUI();
   closeModal("cartPanel");
   document.getElementById("orderModal").classList.remove("hidden");
 });
 
+document.getElementById("sendEmailBtn").addEventListener("click", () => {
+  const sendBtn = document.getElementById("sendEmailBtn");
+  const status = document.getElementById("orderStatusText");
+
+  if (!window.emailjs) {
+    status.textContent = "E-Mail-Versand ist gerade nicht verfügbar. Bitte nutze stattdessen das E-Mail-Programm oder kopiere den Text.";
+    status.classList.add("order-status-error");
+    return;
+  }
+
+  sendBtn.disabled = true;
+  sendBtn.textContent = "Wird gesendet …";
+  status.classList.remove("order-status-error", "order-status-success");
+  status.textContent = "Einen Moment, die Benachrichtigung wird verschickt …";
+
+  const templateParams = {
+    title: "Pflanze gesichert",
+    name: currentProfile,
+    time: new Date().toLocaleString("de-DE", { dateStyle: "medium", timeStyle: "short" }),
+    message: `Pflanzen wurden gesichert:\n\n${buildPlantListText()}`,
+    email: ORDER_EMAIL
+  };
+
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+    .then(() => {
+      status.textContent = "Erfolgreich gesendet ✅ Felix wurde per E-Mail benachrichtigt.";
+      status.classList.add("order-status-success");
+      sendBtn.textContent = "Gesendet ✅";
+      cart.clear();
+      saveCart();
+      updateCartCount();
+      renderGrid();
+    })
+    .catch(err => {
+      console.error("EmailJS-Fehler:", err);
+      status.textContent = "Senden hat leider nicht geklappt. Bitte nutze stattdessen das E-Mail-Programm oder kopiere den Text.";
+      status.classList.add("order-status-error");
+      sendBtn.disabled = false;
+      sendBtn.textContent = "Nochmal versuchen";
+    });
+});
+
 document.getElementById("openMailBtn").addEventListener("click", () => {
-  const subject = encodeURIComponent(`Pflanzenauswahl von ${currentProfile}`);
+  const subject = encodeURIComponent("Pflanze gesichert");
   const body = encodeURIComponent(buildOrderText());
   window.location.href = `mailto:${ORDER_EMAIL}?subject=${subject}&body=${body}`;
 });
 
 document.getElementById("copySummaryBtn").addEventListener("click", () => {
-  const text = document.getElementById("orderSummary").textContent;
+  const text = buildOrderText();
   navigator.clipboard.writeText(text).then(() => {
     const btn = document.getElementById("copySummaryBtn");
     const original = btn.textContent;
