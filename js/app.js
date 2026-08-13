@@ -2,8 +2,7 @@
 const PROFILES = [
   { name: "Falk", emoji: "🦅", color: "#2b6cb0" },
   { name: "Leni", emoji: "🌻", color: "#d97706" },
-  { name: "Lilly", emoji: "🌸", color: "#d6336c" },
-  { name: "Test", emoji: "🧪", color: "#4b5563" }
+  { name: "Lilly", emoji: "🌸", color: "#d6336c" }
 ];
 const ORDER_EMAIL = "felix.n3003@gmail.com"; // Empfänger der Bestellzusammenfassung
 
@@ -371,48 +370,23 @@ function buildPlantListText() {
     .join("\n");
 }
 
-function buildOrderText() {
-  const ids = [...cart];
-  const lines = [];
-  lines.push(`Pflanzenauswahl von: ${currentProfile}`);
-  lines.push(`Datum: ${new Date().toLocaleDateString("de-DE")}`);
-  lines.push("");
-  lines.push(buildPlantListText());
-  lines.push("");
-  lines.push(`Gesamtzahl Pflanzen: ${ids.length}`);
-  return lines.join("\n");
-}
-
-function resetOrderModalUI() {
+function sendSecuredNotification() {
+  const title = document.getElementById("orderTitle");
   const status = document.getElementById("orderStatusText");
-  status.textContent = 'Diese Pflanzen wurden gesichert. Klicke auf "Jetzt senden", um Felix automatisch per E-Mail zu benachrichtigen.';
+  const retryWrap = document.getElementById("orderRetryWrap");
+
+  title.textContent = "Wird gesichert …";
+  status.textContent = "";
   status.classList.remove("order-status-error", "order-status-success");
-  const sendBtn = document.getElementById("sendEmailBtn");
-  sendBtn.disabled = false;
-  sendBtn.textContent = "Jetzt senden";
-}
-
-document.getElementById("submitOrderBtn").addEventListener("click", () => {
-  document.getElementById("orderSummary").textContent = buildPlantListText();
-  resetOrderModalUI();
-  closeModal("cartPanel");
-  document.getElementById("orderModal").classList.remove("hidden");
-});
-
-document.getElementById("sendEmailBtn").addEventListener("click", () => {
-  const sendBtn = document.getElementById("sendEmailBtn");
-  const status = document.getElementById("orderStatusText");
+  retryWrap.classList.add("hidden");
 
   if (!window.emailjs) {
-    status.textContent = "E-Mail-Versand ist gerade nicht verfügbar. Bitte nutze stattdessen das E-Mail-Programm oder kopiere den Text.";
+    title.textContent = "Das hat leider nicht geklappt";
+    status.textContent = "Bitte versuch es gleich noch einmal.";
     status.classList.add("order-status-error");
+    retryWrap.classList.remove("hidden");
     return;
   }
-
-  sendBtn.disabled = true;
-  sendBtn.textContent = "Wird gesendet …";
-  status.classList.remove("order-status-error", "order-status-success");
-  status.textContent = "Einen Moment, die Benachrichtigung wird verschickt …";
 
   const templateParams = {
     title: "Pflanze gesichert",
@@ -424,9 +398,8 @@ document.getElementById("sendEmailBtn").addEventListener("click", () => {
 
   emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
     .then(() => {
-      status.textContent = "Erfolgreich gesendet ✅ Felix wurde per E-Mail benachrichtigt.";
+      title.textContent = "Deine Pflanzen wurden gesichert 🌿";
       status.classList.add("order-status-success");
-      sendBtn.textContent = "Gesendet ✅";
       cart.clear();
       saveCart();
       updateCartCount();
@@ -434,28 +407,21 @@ document.getElementById("sendEmailBtn").addEventListener("click", () => {
     })
     .catch(err => {
       console.error("EmailJS-Fehler:", err);
-      status.textContent = "Senden hat leider nicht geklappt. Bitte nutze stattdessen das E-Mail-Programm oder kopiere den Text.";
+      title.textContent = "Das hat leider nicht geklappt";
+      status.textContent = "Bitte versuch es gleich noch einmal.";
       status.classList.add("order-status-error");
-      sendBtn.disabled = false;
-      sendBtn.textContent = "Nochmal versuchen";
+      retryWrap.classList.remove("hidden");
     });
+}
+
+document.getElementById("submitOrderBtn").addEventListener("click", () => {
+  document.getElementById("orderSummary").textContent = buildPlantListText();
+  closeModal("cartPanel");
+  document.getElementById("orderModal").classList.remove("hidden");
+  sendSecuredNotification();
 });
 
-document.getElementById("openMailBtn").addEventListener("click", () => {
-  const subject = encodeURIComponent("Pflanze gesichert");
-  const body = encodeURIComponent(buildOrderText());
-  window.location.href = `mailto:${ORDER_EMAIL}?subject=${subject}&body=${body}`;
-});
-
-document.getElementById("copySummaryBtn").addEventListener("click", () => {
-  const text = buildOrderText();
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById("copySummaryBtn");
-    const original = btn.textContent;
-    btn.textContent = "Kopiert! ✅";
-    setTimeout(() => (btn.textContent = original), 1500);
-  });
-});
+document.getElementById("retrySendBtn").addEventListener("click", sendSecuredNotification);
 
 document.getElementById("orderClose").addEventListener("click", () => closeModal("orderModal"));
 document.getElementById("orderBackdrop").addEventListener("click", () => closeModal("orderModal"));

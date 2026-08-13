@@ -75,7 +75,7 @@
   </main>
 
   <footer class="site-footer">
-    <p>Gemacht mit 🌱 für Falk, Leni, Lilly &amp; Test</p>
+    <p>Gemacht mit 🌱 für Falk, Leni &amp; Lilly</p>
   </footer>
 </div>
 
@@ -125,13 +125,11 @@
   <div class="modal-backdrop" id="orderBackdrop"></div>
   <div class="modal-content order-content">
     <button class="modal-close" id="orderClose">✕</button>
-    <h2 id="orderTitle">Auswahl senden</h2>
-    <p id="orderStatusText">Diese Pflanzen wurden gesichert. Klicke auf "Jetzt senden", um Felix automatisch per E-Mail zu benachrichtigen.</p>
+    <h2 id="orderTitle">Wird gesichert …</h2>
+    <p id="orderStatusText"></p>
     <div class="order-summary" id="orderSummary"></div>
-    <div class="detail-actions">
-      <button id="sendEmailBtn" class="btn-primary">Jetzt senden</button>
-      <button id="openMailBtn" class="btn-ghost">Stattdessen E-Mail-Programm öffnen</button>
-      <button id="copySummaryBtn" class="btn-ghost">Als Text kopieren</button>
+    <div class="detail-actions hidden" id="orderRetryWrap">
+      <button id="retrySendBtn" class="btn-primary">Nochmal versuchen</button>
     </div>
   </div>
 </div>
