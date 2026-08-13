@@ -9,6 +9,7 @@ const PLANTS = [
     care: "Mittel",
     light: "Hell, indirektes Licht",
     waterWinter: "alle 2–3 Wochen",
+    importance: "Niedrig",
     shortDesc: "Junge Monstera deliciosa mit den ersten typischen Fensterblättern.",
     desc: "Die Monstera deliciosa ist einer der beliebtesten Zimmerpflanzen-Klassiker. Diese kleine Pflanze steht noch am Anfang ihrer Entwicklung – die charakteristischen Löcher und Einschnitte in den Blättern (Fensterung) bilden sich erst mit zunehmendem Alter aus. Sie bevorzugt einen hellen Platz ohne pralle Mittagssonne und mag es, wenn die oberste Erdschicht zwischen den Wassergaben leicht antrocknet. Im Winter braucht sie deutlich weniger Wasser als im Sommer. Ein Rankgitter oder Moosstab hilft ihr später beim Wachsen."
   },
@@ -21,6 +22,7 @@ const PLANTS = [
     care: "Mittel",
     light: "Hell, indirektes Licht",
     waterWinter: "alle 2–3 Wochen",
+    importance: "Niedrig",
     shortDesc: "Kräftige Monstera deliciosa mit mehreren großen, gefensterten Blättern.",
     desc: "Diese Monstera deliciosa ist schon etwas weiter gewachsen und zeigt die typischen tiefen Einschnitte in den Blättern. Sie wächst zügig, wenn sie einen hellen, warmen Standort ohne direkte Sonne bekommt. Gegossen wird, sobald sich die oberen 2–3 cm der Erde trocken anfühlen – im Winter reicht meist alle 2 bis 3 Wochen. Gelegentliches Abstauben der großen Blätter fördert die Photosynthese und beugt Schädlingen vor."
   },
@@ -32,9 +34,10 @@ const PLANTS = [
     size: "Klein",
     care: "Mittel",
     light: "Hell, indirektes Licht",
-    waterWinter: "alle 2 Wochen",
+    waterWinter: "alle 1–2 Wochen",
+    importance: "Hoch",
     shortDesc: "Fensterblatt mit filigranen, stark durchlöcherten Blättern – rankt gerne.",
-    desc: "Die Monstera adansonii, auch Fensterblatt genannt, unterscheidet sich von der klassischen Monstera durch ihre kleineren, dicht durchlöcherten Blätter und die stark rankende Wuchsform. Sie liebt es hell und luftfeucht, aber ohne direkte Sonne. An einer Rankhilfe oder einem Moosstab klettert sie besonders schön in die Höhe. Die Erde sollte leicht feucht gehalten werden, im Winter genügt es, etwa alle zwei Wochen zu gießen."
+    desc: "Die Monstera adansonii, auch Fensterblatt genannt, unterscheidet sich von der klassischen Monstera durch ihre kleineren, dicht durchlöcherten Blätter und die stark rankende Wuchsform. Sie liebt es hell und luftfeucht, aber ohne direkte Sonne. An einer Rankhilfe oder einem Moosstab klettert sie besonders schön in die Höhe. Die Erde sollte leicht feucht gehalten werden, im Winter genügt es, etwa alle ein bis zwei Wochen zu gießen."
   },
   {
     id: "5948",
@@ -44,7 +47,8 @@ const PLANTS = [
     size: "Mittel",
     care: "Hoch",
     light: "Hell, indirektes Licht (keine pralle Sonne)",
-    waterWinter: "alle 2–3 Wochen",
+    waterWinter: "alle 1–2 Wochen",
+    importance: "Hoch",
     shortDesc: "Seltene, panaschierte Monstera-Variante mit cremeweißer Marmorierung.",
     desc: "Die Monstera Thai Constellation ist eine besonders gefragte, panaschierte Sorte mit cremeweißer bis gelblicher Marmorierung auf dunkelgrünem Blattgrund. Da ihr die weißen Blattbereiche keine Photosynthese ermöglichen, wächst sie langsamer als eine normale Monstera und ist etwas anspruchsvoller in der Pflege. Sie braucht einen hellen Standort ganz ohne direkte Sonne, da die hellen Blattpartien sonst leicht verbrennen. Staunässe unbedingt vermeiden – lieber etwas seltener, dafür gründlich gießen."
   },
@@ -56,9 +60,10 @@ const PLANTS = [
     size: "Groß",
     care: "Mittel",
     light: "Hell, indirektes Licht",
-    waterWinter: "alle 2–3 Wochen",
+    waterWinter: "alle 1–2 Wochen",
+    importance: "Hoch",
     shortDesc: "Ausgewachsene Monstera deliciosa mit großen, stark gefensterten Blättern.",
-    desc: "Diese ausgewachsene Monstera deliciosa besticht mit großen, tief eingeschnittenen und gefensterten Blättern. Sie braucht mittlerweile etwas mehr Platz und Wasser als eine junge Pflanze, sollte aber weiterhin nur gegossen werden, wenn die Erde angetrocknet ist. Ein heller Standort ohne direkte Mittagssonne und gelegentliches Düngen in der Wachstumsphase lassen sie prächtig gedeihen. Im Winter wird die Wassergabe deutlich reduziert."
+    desc: "Diese ausgewachsene Monstera deliciosa besticht mit großen, tief eingeschnittenen und gefensterten Blättern. Sie braucht mittlerweile etwas mehr Platz und Wasser als eine junge Pflanze, sollte aber weiterhin nur gegossen werden, wenn die Erde angetrocknet ist. Ein heller Standort ohne direkte Mittagssonne und gelegentliches Düngen in der Wachstumsphase lassen sie prächtig gedeihen. Im Winter wird die Wassergabe reduziert, sollte aber nicht komplett ausbleiben."
   },
   {
     id: "5935",
@@ -67,10 +72,11 @@ const PLANTS = [
     image: "images/IMG_5935.jpg",
     size: "Groß",
     care: "Niedrig",
-    light: "Viel Sonne / sehr helles Licht",
+    light: "Ein bisschen Licht reicht",
     waterWinter: "alle 5–6 Wochen",
+    importance: "Mittel",
     shortDesc: "Große, stark verzweigte Wolfsmilch-Säule – sieht aus wie ein Kaktus.",
-    desc: "Die Euphorbia trigona (Dreikantige Wolfsmilch) wird oft mit einem Kaktus verwechselt, ist botanisch aber eine Sukkulente aus der Wolfsmilchfamilie. Diese große, stark verzweigte Pflanze ist absolut pflegeleicht: Sie liebt einen sonnigen, warmen Platz und übersteht auch mal längere Trockenphasen problemlos. Im Winter reicht es, alle 5 bis 6 Wochen sparsam zu gießen. Vorsicht beim Umtopfen: Der milchige Pflanzensaft ist hautreizend, am besten Handschuhe tragen."
+    desc: "Die Euphorbia trigona (Dreikantige Wolfsmilch) wird oft mit einem Kaktus verwechselt, ist botanisch aber eine Sukkulente aus der Wolfsmilchfamilie. Diese große, stark verzweigte Pflanze ist absolut pflegeleicht: Ein normaler, heller Platz genügt völlig, viel direkte Sonne braucht sie nicht. Sie übersteht auch mal längere Trockenphasen problemlos. Im Winter reicht es, alle 5 bis 6 Wochen sparsam zu gießen. Vorsicht beim Umtopfen: Der milchige Pflanzensaft ist hautreizend, am besten Handschuhe tragen."
   },
   {
     id: "5941",
@@ -79,10 +85,11 @@ const PLANTS = [
     image: "images/IMG_5941.jpg",
     size: "Klein",
     care: "Niedrig",
-    light: "Viel Sonne / sehr helles Licht",
+    light: "Ein bisschen Licht reicht",
     waterWinter: "alle 5–6 Wochen",
+    importance: "Niedrig",
     shortDesc: "Junger Ableger der Dreikantigen Wolfsmilch, noch mit wenigen Trieben.",
-    desc: "Dieser junge Steckling der Euphorbia trigona hat gerade erst begonnen, sich zu verzweigen. Wie alle Wolfsmilchgewächse ist er extrem genügsam und verzeiht auch mal vergessenes Gießen. Ein sonniger Platz fördert kompaktes, kräftiges Wachstum. Gegossen wird sparsam und nur, wenn die Erde komplett durchgetrocknet ist – im Winter reicht das etwa alle 5 bis 6 Wochen."
+    desc: "Dieser junge Steckling der Euphorbia trigona hat gerade erst begonnen, sich zu verzweigen. Wie alle Wolfsmilchgewächse ist er extrem genügsam und verzeiht auch mal vergessenes Gießen. Ein normaler, heller Standort reicht völlig, pralle Sonne braucht er nicht. Gegossen wird sparsam und nur, wenn die Erde komplett durchgetrocknet ist – im Winter reicht das etwa alle 5 bis 6 Wochen."
   },
   {
     id: "5943",
@@ -91,10 +98,11 @@ const PLANTS = [
     image: "images/IMG_5943.jpg",
     size: "Mittel",
     care: "Niedrig",
-    light: "Viel Sonne / sehr helles Licht",
+    light: "Ein bisschen Licht reicht",
     waterWinter: "alle 5–6 Wochen",
+    importance: "Niedrig",
     shortDesc: "Schlanke, aufrecht wachsende Wolfsmilchsäule mit dekorativen Kanten.",
-    desc: "Diese mittelgroße Euphorbia trigona wächst schön aufrecht mit den typischen drei- bis vierkantigen, dornbesetzten Trieben. Sie ist ideal für sonnige Fensterplätze und braucht kaum Pflege. In der Wachstumsphase im Sommer darf gelegentlich gegossen und leicht gedüngt werden, im Winter reicht eine sehr sparsame Wassergabe alle paar Wochen."
+    desc: "Diese mittelgroße Euphorbia trigona wächst schön aufrecht mit den typischen drei- bis vierkantigen, dornbesetzten Trieben. Sie kommt mit einer ganz normalen Zimmerumgebung zurecht und braucht kaum Pflege. In der Wachstumsphase im Sommer darf gelegentlich gegossen und leicht gedüngt werden, im Winter reicht eine sehr sparsame Wassergabe alle paar Wochen."
   },
   {
     id: "5944",
@@ -103,22 +111,24 @@ const PLANTS = [
     image: "images/IMG_5944.jpg",
     size: "Klein",
     care: "Niedrig",
-    light: "Viel Sonne / sehr helles Licht",
+    light: "Ein bisschen Licht reicht",
     waterWinter: "alle 5–6 Wochen",
+    importance: "Niedrig",
     shortDesc: "Kompakte, kleinere Wolfsmilchsäule mit hellen Dornenreihen.",
-    desc: "Eine kompakte, etwas kürzer gewachsene Euphorbia trigona mit gut sichtbaren, hellen Dornenreihen entlang der Kanten. Auch sie ist eine pflegeleichte Sukkulente, die einen sonnigen Standort und wenig Gießen bevorzugt. Staunässe sollte unbedingt vermieden werden, ein durchlässiges Kakteensubstrat ist ideal."
+    desc: "Eine kompakte, etwas kürzer gewachsene Euphorbia trigona mit gut sichtbaren, hellen Dornenreihen entlang der Kanten. Auch sie ist eine pflegeleichte Sukkulente, die mit ein bisschen Licht und wenig Gießen gut zurechtkommt. Staunässe sollte unbedingt vermieden werden, ein durchlässiges Kakteensubstrat ist ideal."
   },
   {
     id: "5954",
-    name: "Euphorbia Trigona Hoch",
-    category: "Wolfsmilch",
+    name: "Zickzackkaktus",
+    category: "Sonstige",
     image: "images/IMG_5954.jpg",
     size: "Groß",
     care: "Niedrig",
-    light: "Viel Sonne / sehr helles Licht",
-    waterWinter: "alle 5–6 Wochen",
-    shortDesc: "Hoch aufragende, schlanke Wolfsmilch mit mehreren dünnen Trieben.",
-    desc: "Diese Euphorbia trigona ist besonders hoch und schlank gewachsen, mit mehreren dünnen, aufrechten Trieben. Je heller und sonniger der Standort, desto kompakter und stabiler bleibt das Wachstum. Wie alle Wolfsmilchgewächse ist sie sehr genügsam beim Gießen – im Winter genügt es, die Pflanze nur alle 5 bis 6 Wochen leicht zu wässern."
+    light: "Ein bisschen Licht reicht, normale Zimmerumgebung",
+    waterWinter: "alle 3–4 Wochen",
+    importance: "Niedrig",
+    shortDesc: "Hoch aufragender Zickzack-/Fischgrätenkaktus mit flachen, gezackten Trieben.",
+    desc: "Diese Pflanze wurde ursprünglich fälschlich als Euphorbia trigona eingeordnet – tatsächlich handelt es sich um einen Zickzack- bzw. Fischgrätenkaktus (ähnlich Selenicereus/Epiphyllum), erkennbar an den flachen, leicht gezackten Trieben. Anders als klassische Wüstenkakteen stammt er ursprünglich aus schattigeren, feuchteren Wäldern und braucht deshalb keine pralle Sonne – eine normale, helle Zimmerumgebung reicht völlig aus. Gegossen wird mäßig, sobald die Erde angetrocknet ist, im Winter reicht es alle 3 bis 4 Wochen."
   },
   {
     id: "5936",
@@ -127,34 +137,37 @@ const PLANTS = [
     image: "images/IMG_5936.jpg",
     size: "Mittel",
     care: "Niedrig",
-    light: "Viel Sonne / sehr helles Licht",
+    light: "Ein bisschen Licht reicht",
     waterWinter: "alle 4 Wochen",
+    importance: "Niedrig",
     shortDesc: "Mehrere Aloe-Vera-Pflanzen zusammen an einem hellen Fensterplatz.",
-    desc: "Diese Gruppe aus mehreren Aloe-Vera-Töpfen zeigt, wie unkompliziert sich Aloe Vera vermehren und gruppieren lässt. Alle Pflanzen lieben einen möglichst sonnigen, warmen Standort, zum Beispiel ein Südfenster. Gegossen wird erst, wenn die Erde komplett trocken ist – Staunässe verträgt Aloe Vera gar nicht. Der Gel-Inhalt der Blätter wird traditionell für Haut und Wunden verwendet."
+    desc: "Diese Gruppe aus mehreren Aloe-Vera-Töpfen zeigt, wie unkompliziert sich Aloe Vera vermehren und gruppieren lässt. Man kann sich hier auch einzelne Pflanzen aus der Gruppe aussuchen, statt gleich die ganze Gruppe zu nehmen. Ein bisschen Licht reicht den Pflanzen völlig, viel pralle Sonne braucht es nicht. Gegossen wird erst, wenn die Erde komplett trocken ist – Staunässe verträgt Aloe Vera gar nicht. Der Gel-Inhalt der Blätter wird traditionell für Haut und Wunden verwendet."
   },
   {
     id: "5937",
-    name: "Aloe Vera Klein",
+    name: "Aloe Vera Mittel",
     category: "Aloe Vera",
     image: "images/IMG_5937.jpg",
-    size: "Klein",
+    size: "Mittel",
     care: "Niedrig",
-    light: "Viel Sonne / sehr helles Licht",
+    light: "Ein bisschen Licht reicht",
     waterWinter: "alle 4 Wochen",
-    shortDesc: "Kleine, kompakte Aloe Vera mit charakteristischen weißen Flecken.",
-    desc: "Diese junge Aloe Vera zeigt noch die für jüngere Pflanzen typischen weißen Sprenkel auf den Blättern. Sie ist denkbar pflegeleicht: viel Sonne, wenig Wasser. Im Winter reicht es völlig, sie alle vier Wochen leicht zu gießen. In der prallen Mittagssonne am Fenster fühlt sie sich am wohlsten."
+    importance: "Niedrig",
+    shortDesc: "Aloe Vera mit vereinzelt noch sichtbaren weißen Blattsprenkeln.",
+    desc: "Diese Aloe Vera zeigt an einigen Blättern noch die weißen Sprenkel, die bei jüngeren Pflanzen typisch sind, ist inzwischen aber schon zu einer ansehnlichen, mittelgroßen Pflanze herangewachsen. Sie ist denkbar pflegeleicht: Ein bisschen Licht reicht ihr, viel Wasser braucht sie nicht. Im Winter genügt es völlig, sie alle vier Wochen leicht zu gießen."
   },
   {
     id: "5953",
-    name: "Aloe Vera Mittel",
+    name: "Aloe Vera Klein",
     category: "Aloe Vera",
     image: "images/IMG_5953.jpg",
-    size: "Mittel",
+    size: "Klein",
     care: "Niedrig",
-    light: "Viel Sonne / sehr helles Licht",
+    light: "Ein bisschen Licht reicht",
     waterWinter: "alle 4 Wochen",
-    shortDesc: "Bereits kräftiger gewachsene Aloe Vera mit dicken, fleischigen Blättern.",
-    desc: "Diese Aloe Vera hat schon deutlich dickere, fleischigere Blätter entwickelt – ein Zeichen für einen guten, sonnigen Standort. Sie speichert Wasser in ihren Blättern und kommt daher auch mit unregelmäßigem Gießen gut zurecht. Im Winter sollte die Wassergabe auf ein Minimum reduziert werden, etwa alle vier Wochen."
+    importance: "Niedrig",
+    shortDesc: "Kompakte, kleinere Aloe Vera mit schön dicken, fleischigen Blättern.",
+    desc: "Diese kleinere Aloe Vera hat trotz ihrer kompakten Größe schon schön dicke, fleischige Blätter entwickelt. Sie speichert Wasser in ihren Blättern und kommt daher auch mit unregelmäßigem Gießen gut zurecht – ein bisschen Licht reicht ihr völlig. Im Winter sollte die Wassergabe auf ein Minimum reduziert werden, etwa alle vier Wochen."
   },
   {
     id: "5942",
@@ -165,6 +178,7 @@ const PLANTS = [
     care: "Niedrig",
     light: "Viel Sonne / sehr helles Licht",
     waterWinter: "alle 4 Wochen",
+    importance: "Mittel",
     shortDesc: "Crassula ovata mit dicken, runden Blättern – gilt als Glücksbringer.",
     desc: "Der Geldbaum (Crassula ovata) ist eine robuste Sukkulente mit dicken, glänzenden, ovalen Blättern und gilt traditionell als Glücksbringer. Er bevorzugt einen hellen bis sonnigen Standort und speichert Wasser in seinen Blättern, weshalb er sehr genügsam beim Gießen ist. Im Winter reicht eine Wassergabe etwa alle vier Wochen völlig aus – zu viel Wasser lässt die Wurzeln schnell faulen."
   },
@@ -176,9 +190,10 @@ const PLANTS = [
     size: "Groß",
     care: "Mittel",
     light: "Hell, auch direkte Sonne",
-    waterWinter: "alle 2 Wochen",
+    waterWinter: "alle 1–2 Wochen",
+    importance: "Hoch",
     shortDesc: "Große Strelitzia nicolai mit bananenblattartigen Blättern – echter Blickfang.",
-    desc: "Die Strelitzia nicolai (Bananen-Strelitzie) ist mit ihren großen, paddelförmigen Blättern ein imposanter Blickfang und kann als Zimmerpflanze mehrere Meter hoch werden. Sie braucht viel Licht, verträgt auch direkte Sonne, und in der Wachstumsphase regelmäßig Wasser und Dünger. Im Winter wird deutlich sparsamer gegossen, etwa alle zwei Wochen. Zugluft und ständige Standortwechsel mag sie nicht."
+    desc: "Die Strelitzia nicolai (Bananen-Strelitzie) ist mit ihren großen, paddelförmigen Blättern ein imposanter Blickfang und kann als Zimmerpflanze mehrere Meter hoch werden. Sie braucht viel Licht, verträgt auch direkte Sonne, und in der Wachstumsphase regelmäßig Wasser und Dünger. Im Winter wird etwas sparsamer gegossen, etwa alle ein bis zwei Wochen. Zugluft und ständige Standortwechsel mag sie nicht."
   },
   {
     id: "5946",
@@ -188,7 +203,8 @@ const PLANTS = [
     size: "Mittel",
     care: "Niedrig",
     light: "Hell bis Halbschatten",
-    waterWinter: "alle 2–3 Wochen",
+    waterWinter: "alle 1–2 Wochen",
+    importance: "Mittel",
     shortDesc: "Buschige, panaschierte Grünlilie mit weiß-grün gestreiften Blättern.",
     desc: "Die Grünlilie (Chlorophytum comosum) zählt zu den pflegeleichtesten und robustesten Zimmerpflanzen überhaupt und filtert nebenbei effektiv die Raumluft. Sie kommt sowohl mit hellen als auch etwas schattigeren Standorten gut zurecht. Gegossen wird mäßig, sobald die Erde angetrocknet ist. Mit der Zeit bildet sie an langen Trieben kleine 'Kindel', die sich leicht als neue Pflanzen abtrennen lassen."
   },
@@ -201,44 +217,48 @@ const PLANTS = [
     care: "Niedrig",
     light: "Hell bis Halbschatten",
     waterWinter: "alle 2–3 Wochen",
+    importance: "Niedrig",
     shortDesc: "Junge Grünlilie mit schmalen, überhängenden Blättern.",
     desc: "Diese junge Grünlilie zeigt bereits die schmalen, überhängenden Blätter, die typisch für die Art sind. Sie ist extrem anpassungsfähig und verzeiht auch mal eine vergessene Gießrunde. Ein Platz mit hellem bis halbschattigem Licht und mäßiges Gießen reichen für gutes Wachstum völlig aus."
   },
   {
     id: "5952",
-    name: "Efeutute Klein",
+    name: "Efeutute",
     category: "Efeutute",
     image: "images/IMG_5952.jpg",
     size: "Klein",
     care: "Niedrig",
     light: "Halbschatten bis hell",
     waterWinter: "alle 2–3 Wochen",
+    importance: "Mittel",
     shortDesc: "Buschige Efeutute (Pothos) mit herzförmigen, glänzenden Blättern.",
     desc: "Die Efeutute (Epipremnum aureum), auch Pothos genannt, ist eine der pflegeleichtesten Rank- und Hängepflanzen. Sie kommt sowohl mit hellen als auch mit schattigeren Standorten zurecht und verzeiht kleinere Pflegefehler locker. Gegossen wird, sobald die Erde angetrocknet ist. An einer Rankhilfe wächst sie in die Höhe, ohne Stütze bildet sie lange, hängende Triebe."
   },
   {
     id: "5956",
-    name: "Efeutute Groß",
-    category: "Efeutute",
+    name: "Efeu",
+    category: "Efeu",
     image: "images/IMG_5956.jpg",
-    size: "Groß",
+    size: "Mittel",
     care: "Niedrig",
     light: "Halbschatten bis hell",
     waterWinter: "alle 2–3 Wochen",
-    shortDesc: "Ausgewachsene Efeutute mit langen, weit herabhängenden Ranken.",
-    desc: "Diese ausgewachsene Efeutute hat bereits beeindruckend lange Ranken entwickelt, die sich wunderbar von einem Regal oder Hängetopf herabhängen lassen. Sie ist äußerst pflegeleicht und toleriert auch schattigere Standorte, wächst aber an einem helleren Platz zügiger. Gegossen wird mäßig, wenn die Erde angetrocknet ist – im Winter reicht das etwa alle zwei bis drei Wochen."
+    importance: "Mittel",
+    shortDesc: "Ganz normaler Efeu mit langen, herabhängenden Ranken.",
+    desc: "Diese Pflanze wurde ursprünglich fälschlich als Efeutute eingeordnet – tatsächlich handelt es sich um einen klassischen Efeu (Hedera helix) mit den typischen gelappten, dunkelgrünen Blättern und langen Ranken. Efeu ist pflegeleicht und toleriert auch schattigere Standorte, wächst an einem etwas helleren Platz aber gleichmäßiger. Gegossen wird mäßig, wenn die Erde angetrocknet ist – im Winter reicht das etwa alle zwei bis drei Wochen. An einer Rankhilfe oder einem Regal kommen die herabhängenden Triebe besonders schön zur Geltung."
   },
   {
     id: "5950",
-    name: "Avocado-Pflanze",
+    name: "Mango-Pflanze",
     category: "Sonstige",
     image: "images/IMG_5950.jpg",
     size: "Klein",
     care: "Mittel",
     light: "Hell, keine pralle Mittagssonne",
     waterWinter: "alle 1–2 Wochen",
-    shortDesc: "Aus einem Kern selbst gezogene, junge Avocadopflanze.",
-    desc: "Diese Avocadopflanze wurde aus einem Kern gezogen und zeigt schon die ersten kräftigen Blätter. Sie mag einen hellen, warmen Standort ohne pralle Mittagssonne und gleichmäßig feuchte, aber nicht nasse Erde. Avocadopflanzen wachsen recht schnell und sollten regelmäßig umgetopft werden, sobald der Topf zu klein wird. Trockene Heizungsluft im Winter mag sie gar nicht – gelegentliches Besprühen der Blätter hilft."
+    importance: "Niedrig",
+    shortDesc: "Aus einem Kern selbst gezogene, junge Mangopflanze.",
+    desc: "Diese Mangopflanze wurde aus einem Mangokern selbst gezogen und zeigt schon die ersten kräftigen, länglichen Blätter. Sie mag es warm und hell, aber ohne pralle Mittagssonne, und gleichmäßig feuchte, nicht durchnässte Erde. Mangopflanzen wachsen recht zügig und sollten regelmäßig umgetopft werden, sobald der Topf zu klein wird. Trockene Heizungsluft im Winter mag sie gar nicht – gelegentliches Besprühen der Blätter mit Wasser hilft."
   },
   {
     id: "5951",
@@ -249,6 +269,7 @@ const PLANTS = [
     care: "Niedrig",
     light: "Hell bis Halbschatten",
     waterWinter: "alle 3 Wochen",
+    importance: "Niedrig",
     shortDesc: "Dracaena marginata mit schmalen, rot gerandeten Blättern.",
     desc: "Der Drachenbaum (Dracaena marginata) ist eine robuste, sehr pflegeleichte Zimmerpflanze mit schmalen, spitz zulaufenden Blättern, die oft einen rötlichen Rand zeigen. Er kommt mit hellen bis leicht schattigen Standorten gut zurecht und verträgt problemlos trockene Heizungsluft. Gegossen wird sparsam, sobald die Erde angetrocknet ist – im Winter reicht meist alle drei Wochen."
   },
@@ -260,8 +281,9 @@ const PLANTS = [
     size: "Klein",
     care: "Niedrig",
     light: "Halbschatten, kein direktes Sonnenlicht",
-    waterWinter: "Wasser alle 1–2 Wochen wechseln",
+    waterWinter: "Wasser alle 3 Wochen wechseln",
+    importance: "Niedrig",
     shortDesc: "Dracaena sanderiana in der Vase – wächst direkt im Wasser.",
-    desc: "Der Glücksbambus (Dracaena sanderiana) ist botanisch gar kein Bambus, wächst aber genauso unkompliziert – meist direkt in einer Vase mit Wasser statt in Erde. Er mag einen hellen Platz ohne direkte Sonneneinstrahlung. Statt zu gießen wird regelmäßig, etwa alle ein bis zwei Wochen, das Wasser in der Vase gewechselt, um Fäulnis und Algenbildung vorzubeugen. Kalkarmes, abgestandenes Wasser ist ideal."
+    desc: "Der Glücksbambus (Dracaena sanderiana) ist botanisch gar kein Bambus, wächst aber genauso unkompliziert – meist direkt in einer Vase mit Wasser statt in Erde. Er mag einen hellen Platz ohne direkte Sonneneinstrahlung. Statt zu gießen wird regelmäßig, etwa alle drei Wochen, das Wasser in der Vase gewechselt, um Fäulnis und Algenbildung vorzubeugen. Kalkarmes, abgestandenes Wasser ist ideal."
   }
 ];

@@ -1,11 +1,16 @@
 // ===== Konfiguration =====
-const PROFILES = ["Falk", "Leni", "Lilly", "Test"];
+const PROFILES = [
+  { name: "Falk", emoji: "🦅", color: "#2b6cb0" },
+  { name: "Leni", emoji: "🌻", color: "#d97706" },
+  { name: "Lilly", emoji: "🌸", color: "#d6336c" },
+  { name: "Test", emoji: "🧪", color: "#4b5563" }
+];
 const ORDER_EMAIL = "felix.n3003@gmail.com"; // Empfänger der Bestellzusammenfassung
 
 // ===== State =====
 let currentProfile = null;
-let cart = {}; // { plantId: qty }
-let activeFilters = { search: "", category: "", size: "", care: "", light: "" };
+let cart = new Set(); // Set von plantId – jede Pflanze gibt es nur einmal, keine Mengen
+let activeFilters = { search: "", category: "", size: "", care: "", light: "", importance: "" };
 
 // ===== Helpers für localStorage (pro Profil eigener Warenkorb) =====
 function profileKey(profile) {
@@ -15,15 +20,15 @@ function profileKey(profile) {
 function loadCart(profile) {
   try {
     const raw = localStorage.getItem(profileKey(profile));
-    return raw ? JSON.parse(raw) : {};
+    return raw ? new Set(JSON.parse(raw)) : new Set();
   } catch (e) {
-    return {};
+    return new Set();
   }
 }
 
 function saveCart() {
   if (!currentProfile) return;
-  localStorage.setItem(profileKey(currentProfile), JSON.stringify(cart));
+  localStorage.setItem(profileKey(currentProfile), JSON.stringify([...cart]));
 }
 
 function getPlant(id) {
@@ -34,16 +39,17 @@ function getPlant(id) {
 function initProfileGate() {
   const list = document.getElementById("profileList");
   list.innerHTML = "";
-  PROFILES.forEach(name => {
+  PROFILES.forEach(profile => {
     const btn = document.createElement("button");
     btn.className = "profile-card";
-    btn.innerHTML = `<span class="profile-avatar">${name.charAt(0)}</span><span class="profile-name">${name}</span>`;
-    btn.addEventListener("click", () => selectProfile(name));
+    btn.style.setProperty("--profile-color", profile.color);
+    btn.innerHTML = `<span class="profile-avatar">${profile.emoji}</span><span class="profile-name">${profile.name}</span>`;
+    btn.addEventListener("click", () => selectProfile(profile.name));
     list.appendChild(btn);
   });
 
   const savedProfile = localStorage.getItem("pflanzenshop_active_profile");
-  if (savedProfile && PROFILES.includes(savedProfile)) {
+  if (savedProfile && PROFILES.some(p => p.name === savedProfile)) {
     selectProfile(savedProfile, true);
   }
 }
@@ -53,9 +59,11 @@ function selectProfile(name, skipSave) {
   cart = loadCart(name);
   if (!skipSave) localStorage.setItem("pflanzenshop_active_profile", name);
 
+  const profile = PROFILES.find(p => p.name === name);
+
   document.getElementById("profileGate").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
-  document.getElementById("currentProfileLabel").textContent = `👤 ${name}`;
+  document.getElementById("currentProfileLabel").textContent = `${profile ? profile.emoji : "👤"} ${name}`;
 
   renderGrid();
   updateCartCount();
@@ -76,11 +84,14 @@ function initFilterOptions() {
   sizes.sort((a, b) => sizeOrder.indexOf(a) - sizeOrder.indexOf(b));
   const cares = ["Niedrig", "Mittel", "Hoch"].filter(c => PLANTS.some(p => p.care === c));
   const lights = [...new Set(PLANTS.map(p => p.light))];
+  const importanceOrder = ["Niedrig", "Mittel", "Hoch"];
+  const importances = importanceOrder.filter(i => PLANTS.some(p => p.importance === i));
 
   fillSelect("categoryFilter", categories);
   fillSelect("sizeFilter", sizes);
   fillSelect("careFilter", cares);
   fillSelect("lightFilter", lights);
+  fillSelect("importanceFilter", importances);
 }
 
 function fillSelect(id, values) {
@@ -102,6 +113,7 @@ function getFilteredPlants() {
     if (activeFilters.size && p.size !== activeFilters.size) return false;
     if (activeFilters.care && p.care !== activeFilters.care) return false;
     if (activeFilters.light && p.light !== activeFilters.light) return false;
+    if (activeFilters.importance && p.importance !== activeFilters.importance) return false;
     return true;
   });
 }
@@ -116,11 +128,13 @@ function renderGrid() {
     `${plants.length} von ${PLANTS.length} Pflanzen`;
 
   plants.forEach(p => {
+    const inCart = cart.has(p.id);
     const card = document.createElement("div");
-    card.className = "plant-card";
+    card.className = "plant-card" + (inCart ? " in-cart" : "");
     card.innerHTML = `
       <div class="plant-card-image-wrap" data-id="${p.id}">
         <img src="${p.image}" alt="${p.name}" loading="lazy">
+        ${inCart ? '<span class="in-cart-ribbon">Im Korb ✓</span>' : ""}
       </div>
       <div class="plant-card-body">
         <h3 class="plant-card-name" data-id="${p.id}">${p.name}</h3>
@@ -129,9 +143,10 @@ function renderGrid() {
           <span class="badge badge-care-${p.care}">🛠️ ${p.care}</span>
           <span class="badge">☀️ ${p.light}</span>
           <span class="badge">💧 ${p.waterWinter}</span>
+          <span class="badge badge-importance-${p.importance}">❤️ ${p.importance}</span>
         </div>
         <div class="plant-card-footer">
-          <button class="btn-primary" data-add="${p.id}">In den Korb</button>
+          <button class="btn-primary" data-add="${p.id}" ${inCart ? "disabled" : ""}>${inCart ? "Bereits im Korb" : "In den Korb"}</button>
         </div>
       </div>
     `;
@@ -167,10 +182,14 @@ document.getElementById("lightFilter").addEventListener("change", e => {
   activeFilters.light = e.target.value;
   renderGrid();
 });
+document.getElementById("importanceFilter").addEventListener("change", e => {
+  activeFilters.importance = e.target.value;
+  renderGrid();
+});
 document.getElementById("resetFilters").addEventListener("click", () => {
-  activeFilters = { search: "", category: "", size: "", care: "", light: "" };
+  activeFilters = { search: "", category: "", size: "", care: "", light: "", importance: "" };
   document.getElementById("searchInput").value = "";
-  ["categoryFilter", "sizeFilter", "careFilter", "lightFilter"].forEach(id => {
+  ["categoryFilter", "sizeFilter", "careFilter", "lightFilter", "importanceFilter"].forEach(id => {
     document.getElementById(id).value = "";
   });
   renderGrid();
@@ -180,6 +199,7 @@ document.getElementById("resetFilters").addEventListener("click", () => {
 function openDetail(id) {
   const p = getPlant(id);
   if (!p) return;
+  const inCart = cart.has(id);
   document.getElementById("detailImage").src = p.image;
   document.getElementById("detailImage").alt = p.name;
   document.getElementById("detailCategory").textContent = p.category;
@@ -188,44 +208,43 @@ function openDetail(id) {
   document.getElementById("detailCare").textContent = p.care;
   document.getElementById("detailLight").textContent = p.light;
   document.getElementById("detailWater").textContent = p.waterWinter;
+  document.getElementById("detailImportance").textContent = p.importance;
   document.getElementById("detailDesc").textContent = p.desc;
-  document.getElementById("detailAddBtn").dataset.id = p.id;
+  const addBtn = document.getElementById("detailAddBtn");
+  addBtn.dataset.id = p.id;
+  addBtn.disabled = inCart;
+  addBtn.textContent = inCart ? "Bereits im Korb" : "In den Korb legen";
   document.getElementById("detailModal").classList.remove("hidden");
 }
 
 document.getElementById("detailAddBtn").addEventListener("click", e => {
   addToCart(e.target.dataset.id);
+  openDetail(e.target.dataset.id);
 });
 document.getElementById("detailClose").addEventListener("click", () => closeModal("detailModal"));
 document.getElementById("detailBackdrop").addEventListener("click", () => closeModal("detailModal"));
 
 // ===== Warenkorb =====
+// Jede Pflanze ist ein Einzelstück – sie kann nur einmal in den Korb gelegt werden.
 function addToCart(id) {
-  cart[id] = (cart[id] || 0) + 1;
+  if (cart.has(id)) return;
+  cart.add(id);
   saveCart();
   updateCartCount();
   flashCartButton();
-}
-
-function changeQty(id, delta) {
-  if (!cart[id]) return;
-  cart[id] += delta;
-  if (cart[id] <= 0) delete cart[id];
-  saveCart();
-  updateCartCount();
-  renderCart();
+  renderGrid();
 }
 
 function removeFromCart(id) {
-  delete cart[id];
+  cart.delete(id);
   saveCart();
   updateCartCount();
   renderCart();
+  renderGrid();
 }
 
 function updateCartCount() {
-  const total = Object.values(cart).reduce((a, b) => a + b, 0);
-  document.getElementById("cartCount").textContent = total;
+  document.getElementById("cartCount").textContent = cart.size;
 }
 
 function flashCartButton() {
@@ -236,14 +255,13 @@ function flashCartButton() {
 
 function renderCart() {
   const container = document.getElementById("cartItems");
-  const ids = Object.keys(cart);
+  const ids = [...cart];
   container.innerHTML = "";
   document.getElementById("cartEmpty").classList.toggle("hidden", ids.length > 0);
 
   ids.forEach(id => {
     const p = getPlant(id);
     if (!p) return;
-    const qty = cart[id];
     const row = document.createElement("div");
     row.className = "cart-item";
     row.innerHTML = `
@@ -252,18 +270,11 @@ function renderCart() {
         <div class="cart-item-name">${p.name}</div>
         <div class="cart-item-meta">${p.size} · ${p.category}</div>
       </div>
-      <div class="qty-controls">
-        <button class="qty-btn" data-dec="${id}">−</button>
-        <span>${qty}</span>
-        <button class="qty-btn" data-inc="${id}">+</button>
-      </div>
       <button class="remove-btn" data-remove="${id}">Entfernen</button>
     `;
     container.appendChild(row);
   });
 
-  container.querySelectorAll("[data-inc]").forEach(b => b.addEventListener("click", () => changeQty(b.dataset.inc, 1)));
-  container.querySelectorAll("[data-dec]").forEach(b => b.addEventListener("click", () => changeQty(b.dataset.dec, -1)));
   container.querySelectorAll("[data-remove]").forEach(b => b.addEventListener("click", () => removeFromCart(b.dataset.remove)));
 }
 
@@ -276,7 +287,7 @@ document.getElementById("cartBackdrop").addEventListener("click", () => closeMod
 
 // ===== Bestellung abschicken =====
 function buildOrderText() {
-  const ids = Object.keys(cart);
+  const ids = [...cart];
   const lines = [];
   lines.push(`Pflanzenauswahl von: ${currentProfile}`);
   lines.push(`Datum: ${new Date().toLocaleDateString("de-DE")}`);
@@ -287,11 +298,11 @@ function buildOrderText() {
     ids.forEach(id => {
       const p = getPlant(id);
       if (!p) return;
-      lines.push(`- ${p.name} (${p.category}, ${p.size}) x${cart[id]}`);
+      lines.push(`- ${p.name} (${p.category}, ${p.size})`);
     });
   }
   lines.push("");
-  lines.push(`Gesamtzahl Pflanzen: ${ids.reduce((sum, id) => sum + cart[id], 0)}`);
+  lines.push(`Gesamtzahl Pflanzen: ${ids.length}`);
   return lines.join("\n");
 }
 
