@@ -178,7 +178,7 @@ function renderGrid() {
           <span class="badge badge-importance-${p.importance}">❤️ ${p.importance}</span>
         </div>
         <div class="plant-card-footer">
-          <button class="btn-primary" data-add="${p.id}" ${inCart ? "disabled" : ""}>${inCart ? "Bereits ausgewählt" : "Auswählen"}</button>
+          <button class="btn-primary ${inCart ? "is-selected" : ""}" data-toggle="${p.id}">${inCart ? "Ausgewählt ✓ (abwählen)" : "Auswählen"}</button>
         </div>
       </div>
     `;
@@ -188,8 +188,8 @@ function renderGrid() {
   grid.querySelectorAll(".plant-card-image-wrap, .plant-card-name").forEach(el => {
     el.addEventListener("click", () => openDetail(el.dataset.id));
   });
-  grid.querySelectorAll("[data-add]").forEach(btn => {
-    btn.addEventListener("click", () => addToCart(btn.dataset.add));
+  grid.querySelectorAll("[data-toggle]").forEach(btn => {
+    btn.addEventListener("click", () => toggleCartItem(btn.dataset.toggle));
   });
   grid.querySelectorAll("[data-fav]").forEach(btn => {
     btn.addEventListener("click", e => {
@@ -257,8 +257,8 @@ function openDetail(id) {
   document.getElementById("detailDesc").textContent = p.desc;
   const addBtn = document.getElementById("detailAddBtn");
   addBtn.dataset.id = p.id;
-  addBtn.disabled = inCart;
-  addBtn.textContent = inCart ? "Bereits ausgewählt" : "Auswählen";
+  addBtn.classList.toggle("is-selected", inCart);
+  addBtn.textContent = inCart ? "Ausgewählt ✓ (abwählen)" : "Auswählen";
   const favBtn = document.getElementById("detailFavBtn");
   favBtn.dataset.id = p.id;
   favBtn.classList.toggle("is-fav", isFav);
@@ -267,7 +267,7 @@ function openDetail(id) {
 }
 
 document.getElementById("detailAddBtn").addEventListener("click", e => {
-  addToCart(e.target.dataset.id);
+  toggleCartItem(e.target.dataset.id);
   openDetail(e.target.dataset.id);
 });
 document.getElementById("detailFavBtn").addEventListener("click", e => {
@@ -278,7 +278,8 @@ document.getElementById("detailClose").addEventListener("click", () => closeModa
 document.getElementById("detailBackdrop").addEventListener("click", () => closeModal("detailModal"));
 
 // ===== Warenkorb =====
-// Jede Pflanze ist ein Einzelstück – sie kann nur einmal in den Korb gelegt werden.
+// Jede Pflanze ist ein Einzelstück – sie kann nur einmal ausgewählt sein.
+// Ein erneuter Klick auf "Ausgewählt" wählt die Pflanze wieder ab.
 function addToCart(id) {
   if (cart.has(id)) return;
   cart.add(id);
@@ -286,6 +287,14 @@ function addToCart(id) {
   updateCartCount();
   flashCartButton();
   renderGrid();
+}
+
+function toggleCartItem(id) {
+  if (cart.has(id)) {
+    removeFromCart(id);
+  } else {
+    addToCart(id);
+  }
 }
 
 function removeFromCart(id) {

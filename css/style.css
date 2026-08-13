@@ -454,6 +454,18 @@ button {
   cursor: not-allowed;
 }
 
+.btn-primary.is-selected {
+  background: var(--green-100);
+  color: var(--green-900);
+  border: 1px solid var(--green-500);
+}
+
+.btn-primary.is-selected:hover {
+  background: #fdeef2;
+  color: #b3315a;
+  border-color: #e78ba6;
+}
+
 .fav-btn-inline {
   background: white;
   border: 1px solid var(--border);
