@@ -10,11 +10,15 @@ const ORDER_EMAIL = "felix.n3003@gmail.com"; // Empfänger der Bestellzusammenfa
 // ===== State =====
 let currentProfile = null;
 let cart = new Set(); // Set von plantId – jede Pflanze gibt es nur einmal, keine Mengen
-let activeFilters = { search: "", category: "", size: "", care: "", light: "", importance: "" };
+let favorites = new Set(); // Set von plantId – gemerkte Lieblingspflanzen pro Profil
+let activeFilters = { search: "", category: "", size: "", care: "", light: "", importance: "", onlyFavorites: false };
 
-// ===== Helpers für localStorage (pro Profil eigener Warenkorb) =====
+// ===== Helpers für localStorage (pro Profil eigener Warenkorb & eigene Favoriten) =====
 function profileKey(profile) {
   return `pflanzenshop_cart_${profile}`;
+}
+function favoritesKey(profile) {
+  return `pflanzenshop_favorites_${profile}`;
 }
 
 function loadCart(profile) {
@@ -26,9 +30,33 @@ function loadCart(profile) {
   }
 }
 
+function loadFavorites(profile) {
+  try {
+    const raw = localStorage.getItem(favoritesKey(profile));
+    return raw ? new Set(JSON.parse(raw)) : new Set();
+  } catch (e) {
+    return new Set();
+  }
+}
+
 function saveCart() {
   if (!currentProfile) return;
   localStorage.setItem(profileKey(currentProfile), JSON.stringify([...cart]));
+}
+
+function saveFavorites() {
+  if (!currentProfile) return;
+  localStorage.setItem(favoritesKey(currentProfile), JSON.stringify([...favorites]));
+}
+
+function toggleFavorite(id) {
+  if (favorites.has(id)) {
+    favorites.delete(id);
+  } else {
+    favorites.add(id);
+  }
+  saveFavorites();
+  renderGrid();
 }
 
 function getPlant(id) {
@@ -57,6 +85,7 @@ function initProfileGate() {
 function selectProfile(name, skipSave) {
   currentProfile = name;
   cart = loadCart(name);
+  favorites = loadFavorites(name);
   if (!skipSave) localStorage.setItem("pflanzenshop_active_profile", name);
 
   const profile = PROFILES.find(p => p.name === name);
@@ -114,6 +143,7 @@ function getFilteredPlants() {
     if (activeFilters.care && p.care !== activeFilters.care) return false;
     if (activeFilters.light && p.light !== activeFilters.light) return false;
     if (activeFilters.importance && p.importance !== activeFilters.importance) return false;
+    if (activeFilters.onlyFavorites && !favorites.has(p.id)) return false;
     return true;
   });
 }
@@ -129,12 +159,14 @@ function renderGrid() {
 
   plants.forEach(p => {
     const inCart = cart.has(p.id);
+    const isFav = favorites.has(p.id);
     const card = document.createElement("div");
     card.className = "plant-card" + (inCart ? " in-cart" : "");
     card.innerHTML = `
       <div class="plant-card-image-wrap" data-id="${p.id}">
         <img src="${p.image}" alt="${p.name}" loading="lazy">
-        ${inCart ? '<span class="in-cart-ribbon">Im Korb ✓</span>' : ""}
+        <button class="fav-btn ${isFav ? "is-fav" : ""}" data-fav="${p.id}" aria-label="Merken" title="Merken">${isFav ? "♥" : "♡"}</button>
+        ${inCart ? '<span class="in-cart-ribbon">Ausgewählt ✓</span>' : ""}
       </div>
       <div class="plant-card-body">
         <h3 class="plant-card-name" data-id="${p.id}">${p.name}</h3>
@@ -146,7 +178,7 @@ function renderGrid() {
           <span class="badge badge-importance-${p.importance}">❤️ ${p.importance}</span>
         </div>
         <div class="plant-card-footer">
-          <button class="btn-primary" data-add="${p.id}" ${inCart ? "disabled" : ""}>${inCart ? "Bereits im Korb" : "In den Korb"}</button>
+          <button class="btn-primary" data-add="${p.id}" ${inCart ? "disabled" : ""}>${inCart ? "Bereits ausgewählt" : "Auswählen"}</button>
         </div>
       </div>
     `;
@@ -158,6 +190,12 @@ function renderGrid() {
   });
   grid.querySelectorAll("[data-add]").forEach(btn => {
     btn.addEventListener("click", () => addToCart(btn.dataset.add));
+  });
+  grid.querySelectorAll("[data-fav]").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      toggleFavorite(btn.dataset.fav);
+    });
   });
 }
 
@@ -186,9 +224,15 @@ document.getElementById("importanceFilter").addEventListener("change", e => {
   activeFilters.importance = e.target.value;
   renderGrid();
 });
+document.getElementById("favoritesFilterBtn").addEventListener("click", () => {
+  activeFilters.onlyFavorites = !activeFilters.onlyFavorites;
+  document.getElementById("favoritesFilterBtn").classList.toggle("active", activeFilters.onlyFavorites);
+  renderGrid();
+});
 document.getElementById("resetFilters").addEventListener("click", () => {
-  activeFilters = { search: "", category: "", size: "", care: "", light: "", importance: "" };
+  activeFilters = { search: "", category: "", size: "", care: "", light: "", importance: "", onlyFavorites: false };
   document.getElementById("searchInput").value = "";
+  document.getElementById("favoritesFilterBtn").classList.remove("active");
   ["categoryFilter", "sizeFilter", "careFilter", "lightFilter", "importanceFilter"].forEach(id => {
     document.getElementById(id).value = "";
   });
@@ -200,6 +244,7 @@ function openDetail(id) {
   const p = getPlant(id);
   if (!p) return;
   const inCart = cart.has(id);
+  const isFav = favorites.has(id);
   document.getElementById("detailImage").src = p.image;
   document.getElementById("detailImage").alt = p.name;
   document.getElementById("detailCategory").textContent = p.category;
@@ -213,12 +258,20 @@ function openDetail(id) {
   const addBtn = document.getElementById("detailAddBtn");
   addBtn.dataset.id = p.id;
   addBtn.disabled = inCart;
-  addBtn.textContent = inCart ? "Bereits im Korb" : "In den Korb legen";
+  addBtn.textContent = inCart ? "Bereits ausgewählt" : "Auswählen";
+  const favBtn = document.getElementById("detailFavBtn");
+  favBtn.dataset.id = p.id;
+  favBtn.classList.toggle("is-fav", isFav);
+  favBtn.textContent = isFav ? "♥ Gemerkt" : "♡ Merken";
   document.getElementById("detailModal").classList.remove("hidden");
 }
 
 document.getElementById("detailAddBtn").addEventListener("click", e => {
   addToCart(e.target.dataset.id);
+  openDetail(e.target.dataset.id);
+});
+document.getElementById("detailFavBtn").addEventListener("click", e => {
+  toggleFavorite(e.target.dataset.id);
   openDetail(e.target.dataset.id);
 });
 document.getElementById("detailClose").addEventListener("click", () => closeModal("detailModal"));

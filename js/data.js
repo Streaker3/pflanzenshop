@@ -119,7 +119,7 @@ const PLANTS = [
   },
   {
     id: "5954",
-    name: "Zickzackkaktus",
+    name: "Feigenkaktus",
     category: "Sonstige",
     image: "images/IMG_5954.jpg",
     size: "Groß",
@@ -127,8 +127,8 @@ const PLANTS = [
     light: "Ein bisschen Licht reicht, normale Zimmerumgebung",
     waterWinter: "alle 3–4 Wochen",
     importance: "Niedrig",
-    shortDesc: "Hoch aufragender Zickzack-/Fischgrätenkaktus mit flachen, gezackten Trieben.",
-    desc: "Diese Pflanze wurde ursprünglich fälschlich als Euphorbia trigona eingeordnet – tatsächlich handelt es sich um einen Zickzack- bzw. Fischgrätenkaktus (ähnlich Selenicereus/Epiphyllum), erkennbar an den flachen, leicht gezackten Trieben. Anders als klassische Wüstenkakteen stammt er ursprünglich aus schattigeren, feuchteren Wäldern und braucht deshalb keine pralle Sonne – eine normale, helle Zimmerumgebung reicht völlig aus. Gegossen wird mäßig, sobald die Erde angetrocknet ist, im Winter reicht es alle 3 bis 4 Wochen."
+    shortDesc: "Hoch aufragender Feigenkaktus (Opuntia) mit flachen, gefleckten Trieben.",
+    desc: "Diese Pflanze wurde ursprünglich fälschlich als Euphorbia trigona eingeordnet – tatsächlich handelt es sich um einen Feigenkaktus (Opuntia), erkennbar an den flachen, ovalen, mit kleinen Dornenpolstern gesprenkelten Trieben. In seiner natürlichen Heimat steht der Feigenkaktus oft an sehr sonnigen Standorten, kommt als Zimmerpflanze aber auch mit einer normalen, hellen Umgebung ohne pralle Sonne gut zurecht. Gegossen wird sparsam, nur wenn die Erde komplett durchgetrocknet ist – im Winter reicht es alle 3 bis 4 Wochen."
   },
   {
     id: "5936",

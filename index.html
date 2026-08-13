@@ -31,14 +31,18 @@
       <span id="currentProfileLabel" class="profile-label"></span>
       <button id="switchProfileBtn" class="btn-ghost">Profil wechseln</button>
       <button id="cartBtn" class="btn-cart">
-        🧺 Korb <span id="cartCount" class="cart-count">0</span>
+        🌿 Auswahl <span id="cartCount" class="cart-count">0</span>
       </button>
     </div>
   </header>
 
   <main class="shop">
+    <h1 class="shop-heading">Unsere Pflanzen</h1>
+    <p class="shop-subheading">Stöbere durch unsere Sammlung und wähle deine Favoriten aus.</p>
     <div class="toolbar">
       <input type="text" id="searchInput" placeholder="Pflanze suchen…" class="search-input">
+
+      <button id="favoritesFilterBtn" class="pill-toggle">♡ Favoriten</button>
 
       <select id="categoryFilter" class="filter-select">
         <option value="">Alle Arten</option>
@@ -49,18 +53,18 @@
       </select>
 
       <select id="careFilter" class="filter-select">
-        <option value="">Alle Pflegeaufwände</option>
+        <option value="">Pflegeaufwand</option>
       </select>
 
       <select id="lightFilter" class="filter-select">
-        <option value="">Alle Lichtbedürfnisse</option>
+        <option value="">Lichtbedarf</option>
       </select>
 
       <select id="importanceFilter" class="filter-select">
-        <option value="">Alle Wichtigkeiten</option>
+        <option value="">Wichtigkeit</option>
       </select>
 
-      <button id="resetFilters" class="btn-ghost">Filter zurücksetzen</button>
+      <button id="resetFilters" class="btn-ghost">Zurücksetzen</button>
     </div>
 
     <p id="resultCount" class="result-count"></p>
@@ -93,7 +97,8 @@
         </div>
         <p id="detailDesc" class="detail-desc"></p>
         <div class="detail-actions">
-          <button id="detailAddBtn" class="btn-primary">In den Korb legen</button>
+          <button id="detailAddBtn" class="btn-primary">Auswählen</button>
+          <button id="detailFavBtn" class="fav-btn-inline">♡ Merken</button>
         </div>
       </div>
     </div>
@@ -105,9 +110,9 @@
   <div class="modal-backdrop" id="cartBackdrop"></div>
   <div class="modal-content cart-content">
     <button class="modal-close" id="cartClose">✕</button>
-    <h2>Dein Warenkorb</h2>
+    <h2>Deine Auswahl</h2>
     <div id="cartItems" class="cart-items"></div>
-    <p id="cartEmpty" class="cart-empty hidden">Dein Korb ist noch leer. Wähle ein paar Pflanzen aus! 🌵</p>
+    <p id="cartEmpty" class="cart-empty hidden">Deine Auswahl ist noch leer. Wähle ein paar Pflanzen aus! 🌵</p>
     <div class="cart-footer">
       <button id="submitOrderBtn" class="btn-primary btn-full">Auswahl abschicken</button>
     </div>
