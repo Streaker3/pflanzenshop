@@ -169,13 +169,14 @@ function renderGrid() {
   plants.forEach(p => {
     const inCart = cart.has(p.id);
     const isFav = favorites.has(p.id);
+    const reservedBy = typeof RESERVATIONS !== "undefined" ? RESERVATIONS[p.id] : null;
     const card = document.createElement("div");
-    card.className = "plant-card" + (inCart ? " in-cart" : "");
+    card.className = "plant-card" + (inCart ? " in-cart" : "") + (reservedBy ? " is-reserved" : "");
     card.innerHTML = `
       <div class="plant-card-image-wrap" data-id="${p.id}">
         <img src="${p.image}" alt="${p.name}" loading="lazy">
         <button class="fav-btn ${isFav ? "is-fav" : ""}" data-fav="${p.id}" aria-label="Merken" title="Merken">${isFav ? "♥" : "♡"}</button>
-        ${inCart ? '<span class="in-cart-ribbon">Ausgewählt ✓</span>' : ""}
+        ${reservedBy ? `<span class="reserved-ribbon">Reserviert von ${reservedBy}</span>` : (inCart ? '<span class="in-cart-ribbon">Ausgewählt ✓</span>' : "")}
       </div>
       <div class="plant-card-body">
         <h3 class="plant-card-name" data-id="${p.id}">${p.name}</h3>
@@ -187,7 +188,9 @@ function renderGrid() {
           <span class="badge badge-importance-${p.importance}">❤️ ${p.importance}</span>
         </div>
         <div class="plant-card-footer">
-          <button class="btn-primary ${inCart ? "is-selected" : ""}" data-toggle="${p.id}">${inCart ? "Ausgewählt ✓ (abwählen)" : "Auswählen"}</button>
+          ${reservedBy
+            ? `<button class="btn-primary is-reserved-btn" disabled>Reserviert von ${reservedBy}</button>`
+            : `<button class="btn-primary ${inCart ? "is-selected" : ""}" data-toggle="${p.id}">${inCart ? "Ausgewählt ✓ (abwählen)" : "Auswählen"}</button>`}
         </div>
       </div>
     `;
@@ -254,6 +257,7 @@ function openDetail(id) {
   if (!p) return;
   const inCart = cart.has(id);
   const isFav = favorites.has(id);
+  const reservedBy = typeof RESERVATIONS !== "undefined" ? RESERVATIONS[id] : null;
   document.getElementById("detailImage").src = p.image;
   document.getElementById("detailImage").alt = p.name;
   document.getElementById("detailCategory").textContent = p.category;
@@ -264,10 +268,27 @@ function openDetail(id) {
   document.getElementById("detailWater").textContent = p.waterWinter;
   document.getElementById("detailImportance").textContent = p.importance;
   document.getElementById("detailDesc").textContent = p.desc;
+
+  const reservedNote = document.getElementById("detailReservedNote");
+  if (reservedBy) {
+    reservedNote.textContent = `🟠 Reserviert von ${reservedBy}`;
+    reservedNote.classList.remove("hidden");
+  } else {
+    reservedNote.classList.add("hidden");
+  }
+
   const addBtn = document.getElementById("detailAddBtn");
   addBtn.dataset.id = p.id;
-  addBtn.classList.toggle("is-selected", inCart);
-  addBtn.textContent = inCart ? "Ausgewählt ✓ (abwählen)" : "Auswählen";
+  if (reservedBy) {
+    addBtn.disabled = true;
+    addBtn.classList.remove("is-selected");
+    addBtn.textContent = `Reserviert von ${reservedBy}`;
+  } else {
+    addBtn.disabled = false;
+    addBtn.classList.toggle("is-selected", inCart);
+    addBtn.textContent = inCart ? "Ausgewählt ✓ (abwählen)" : "Auswählen";
+  }
+
   const favBtn = document.getElementById("detailFavBtn");
   favBtn.dataset.id = p.id;
   favBtn.classList.toggle("is-fav", isFav);

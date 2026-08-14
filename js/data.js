@@ -287,3 +287,15 @@ const PLANTS = [
     desc: "Der Glücksbambus (Dracaena sanderiana) ist botanisch gar kein Bambus, wächst aber genauso unkompliziert – meist direkt in einer Vase mit Wasser statt in Erde. Er mag einen hellen Platz ohne direkte Sonneneinstrahlung. Statt zu gießen wird regelmäßig, etwa alle drei Wochen, das Wasser in der Vase gewechselt, um Fäulnis und Algenbildung vorzubeugen. Kalkarmes, abgestandenes Wasser ist ideal."
   }
 ];
+
+// ===== Reservierungen =====
+// Wird von Hand gepflegt, sobald eine "Pflanze gesichert"-E-Mail eingeht:
+// einfach die Pflanzen-ID der bestellten Pflanze mit dem Namen der Person eintragen.
+const RESERVATIONS = {
+  "5954": "Leni", // Feigenkaktus
+  "5947": "Leni", // Grünlilie Klein
+  "5951": "Leni", // Drachenbaum
+  "5936": "Leni", // Aloe Vera Gruppe
+  "5952": "Falk", // Efeutute
+  "5942": "Falk"  // Geldbaum
+};

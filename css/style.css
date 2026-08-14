@@ -353,6 +353,43 @@ button {
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
+.reserved-ribbon {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #e8a33d;
+  color: #4a2e05;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  max-width: calc(100% - 60px);
+}
+
+.plant-card.is-reserved .plant-card-image-wrap img {
+  filter: saturate(0.85);
+}
+
+.btn-primary.is-reserved-btn:disabled {
+  background: #fbe3bb;
+  color: #8a5a10;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.reserved-note {
+  display: inline-block;
+  background: #fbe3bb;
+  color: #8a5a10;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: 999px;
+  margin: 0;
+  width: fit-content;
+}
+
 .fav-btn {
   position: absolute;
   top: 10px;
