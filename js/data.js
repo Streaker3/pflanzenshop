@@ -288,9 +288,9 @@ const PLANTS = [
   }
 ];
 
-// ===== Reservierungen =====
+// ===== Gesicherte Pflanzen =====
 // Wird von Hand gepflegt, sobald eine "Pflanze gesichert"-E-Mail eingeht:
-// einfach die Pflanzen-ID der bestellten Pflanze mit dem Namen der Person eintragen.
+// einfach die Pflanzen-ID der gesicherten Pflanze mit dem Namen der Person eintragen.
 const RESERVATIONS = {
   "5954": "Leni", // Feigenkaktus
   "5947": "Leni", // Grünlilie Klein
@@ -298,5 +298,15 @@ const RESERVATIONS = {
   "5936": "Leni", // Aloe Vera Gruppe
   "5952": "Falk", // Efeutute
   "5942": "Falk", // Geldbaum
-  "5956": "Leni"  // Efeu
+  "5956": "Leni", // Efeu
+  "5938": "Lilly", // Monstera Klein
+  "5935": "Lilly", // Euphorbia Trigona Groß
+  "5941": "Lilly", // Euphorbia Trigona Steckling
+  "5953": "Lilly", // Aloe Vera Klein
+  "5950": "Lilly", // Mango-Pflanze
+  "5955": "Lilly", // Glücksbambus
+  "5946": "Lilly", // Grünlilie Mittel
+  "5945": "Lilly", // Strelitzie
+  "5944": "Lilly", // Euphorbia Trigona Klein
+  "5943": "Lilly"  // Euphorbia Trigona Mittel
 };
