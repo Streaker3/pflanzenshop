@@ -176,7 +176,7 @@ function renderGrid() {
       <div class="plant-card-image-wrap" data-id="${p.id}">
         <img src="${p.image}" alt="${p.name}" loading="lazy">
         <button class="fav-btn ${isFav ? "is-fav" : ""}" data-fav="${p.id}" aria-label="Merken" title="Merken">${isFav ? "♥" : "♡"}</button>
-        ${reservedBy ? `<span class="reserved-ribbon">Reserviert von ${reservedBy}</span>` : (inCart ? '<span class="in-cart-ribbon">Ausgewählt ✓</span>' : "")}
+        ${reservedBy ? `<span class="reserved-ribbon">Von ${reservedBy} gesichert</span>` : (inCart ? '<span class="in-cart-ribbon">Ausgewählt ✓</span>' : "")}
       </div>
       <div class="plant-card-body">
         <h3 class="plant-card-name" data-id="${p.id}">${p.name}</h3>
@@ -189,7 +189,7 @@ function renderGrid() {
         </div>
         <div class="plant-card-footer">
           ${reservedBy
-            ? `<button class="btn-primary is-reserved-btn" disabled>Reserviert von ${reservedBy}</button>`
+            ? `<button class="btn-primary is-reserved-btn" disabled>Von ${reservedBy} gesichert</button>`
             : `<button class="btn-primary ${inCart ? "is-selected" : ""}" data-toggle="${p.id}">${inCart ? "Ausgewählt ✓ (abwählen)" : "Auswählen"}</button>`}
         </div>
       </div>
@@ -271,7 +271,7 @@ function openDetail(id) {
 
   const reservedNote = document.getElementById("detailReservedNote");
   if (reservedBy) {
-    reservedNote.textContent = `🟠 Reserviert von ${reservedBy}`;
+    reservedNote.textContent = `🟠 Von ${reservedBy} gesichert`;
     reservedNote.classList.remove("hidden");
   } else {
     reservedNote.classList.add("hidden");
@@ -282,7 +282,7 @@ function openDetail(id) {
   if (reservedBy) {
     addBtn.disabled = true;
     addBtn.classList.remove("is-selected");
-    addBtn.textContent = `Reserviert von ${reservedBy}`;
+    addBtn.textContent = `Von ${reservedBy} gesichert`;
   } else {
     addBtn.disabled = false;
     addBtn.classList.toggle("is-selected", inCart);
