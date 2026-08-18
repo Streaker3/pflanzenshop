@@ -1,7 +1,7 @@
 // ===== Konfiguration =====
 const PROFILES = [
   { name: "Falk", emoji: "🦅", color: "#2b6cb0" },
-  { name: "Leni", emoji: "🌻", color: "#d97706" },
+  { name: "Leni", emoji: "🪴", color: "#d97706" },
   { name: "Lilly", emoji: "🌸", color: "#d6336c" }
 ];
 const ORDER_EMAIL = "felix.n3003@gmail.com"; // Empfänger der Bestellzusammenfassung
