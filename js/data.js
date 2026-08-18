@@ -297,5 +297,6 @@ const RESERVATIONS = {
   "5951": "Leni", // Drachenbaum
   "5936": "Leni", // Aloe Vera Gruppe
   "5952": "Falk", // Efeutute
-  "5942": "Falk"  // Geldbaum
+  "5942": "Falk", // Geldbaum
+  "5956": "Leni"  // Efeu
 };
